@@ -27,9 +27,22 @@ public final class FlywayDataSourceRuntimeConfig {
     public OptionalInt connectRetries = OptionalInt.empty();
 
     /**
-     * Comma-separated case-sensitive list of schemas managed by Flyway.
-     * The first schema in the list will be automatically set as the default one during the migration.
-     * It will also be the one containing the schema history table.
+     * The case-sensitive default schema managed by Flyway. If not specified, but flyway.schemas is, Flyway uses the
+     * first schema in that list. If that is also not specified, Flyway uses the default schema for the database connection.
+     * <p>
+     * This schema will be the one containing the schema history table.
+     * This schema will be the default for the database connection (provided the database supports this concept).
+     */
+    @ConfigItem
+    public Optional<String> defaultSchema = Optional.empty();
+
+    /**
+     * Comma-separated case-sensitive list of schemas managed by Flyway. If flyway.default-schema
+     * is not specified, then the first of this list also acts as default schema.
+     * <p>
+     * Flyway will automatically attempt to create all these schemas, unless they already exist.
+     * The schemas will be cleaned in the order of this list.
+     * If Flyway created them, the schemas themselves will be dropped when cleaning.
      */
     @ConfigItem
     public Optional<List<String>> schemas = Optional.empty();

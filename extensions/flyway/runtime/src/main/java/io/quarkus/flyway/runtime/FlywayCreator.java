@@ -22,6 +22,7 @@ class FlywayCreator {
         FluentConfiguration configure = Flyway.configure();
         configure.dataSource(dataSource);
         flywayRuntimeConfig.connectRetries.ifPresent(configure::connectRetries);
+        flywayRuntimeConfig.defaultSchema.ifPresent(configure::defaultSchema);
         flywayRuntimeConfig.schemas.ifPresent(list -> configure.schemas(list.toArray(EMPTY_ARRAY)));
         flywayRuntimeConfig.table.ifPresent(configure::table);
         configure.locations(flywayBuildTimeConfig.locations.toArray(EMPTY_ARRAY));

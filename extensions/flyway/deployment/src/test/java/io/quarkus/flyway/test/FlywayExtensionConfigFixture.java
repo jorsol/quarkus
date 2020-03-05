@@ -31,6 +31,7 @@ public class FlywayExtensionConfigFixture {
         assertEquals(repeatableSqlMigrationPrefix(configuration), repeatableSqlMigrationPrefix(dataSourceName));
         assertEquals(tableName(configuration), tableName(dataSourceName));
         assertEquals(schemaNames(configuration), schemaNames(dataSourceName));
+        assertEquals(defaultSchema(configuration), defaultSchema(dataSourceName));
 
         assertEquals(connectRetries(configuration), connectRetries(dataSourceName));
 
@@ -46,6 +47,7 @@ public class FlywayExtensionConfigFixture {
         assertEquals(repeatableSqlMigrationPrefix(configuration), repeatableSqlMigrationPrefix(defaultConfiguration));
         assertEquals(tableName(configuration), tableName(defaultConfiguration));
         assertEquals(schemaNames(configuration), schemaNames(defaultConfiguration));
+        assertEquals(defaultSchema(configuration), defaultSchema(defaultConfiguration));
 
         assertEquals(connectRetries(configuration), connectRetries(defaultConfiguration));
 
@@ -60,6 +62,14 @@ public class FlywayExtensionConfigFixture {
 
     public int connectRetries(Configuration configuration) {
         return configuration.getConnectRetries();
+    }
+
+    public String defaultSchema(String datasourceName) {
+        return getStringValue("quarkus.flyway.%s.default-schema", datasourceName);
+    }
+
+    public String defaultSchema(Configuration configuration) {
+        return configuration.getDefaultSchema();
     }
 
     public String schemaNames(String datasourceName) {
